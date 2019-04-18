@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import system_config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'equations'
+    'equations',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -77,10 +79,19 @@ WSGI_APPLICATION = 'math_project.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': system_config.get_mysql_rule_db(),
+            'USER': system_config.get_mysql_server_user(),
+            'PASSWORD': system_config.get_mysql_passwd(),
+            'HOST': system_config.get_mysql_server_ip(),
+            'PORT': '3306',
+            'OPTIONS': {'charset': 'utf8mb4'},
+        },
 }
 
 
